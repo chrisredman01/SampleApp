@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using SampleApp.Application.Common.Extensions;
 using SampleApp.Application.Common.Interfaces;
 using SampleApp.Application.Common.Models;
 using SampleApp.Domain.Entities;
@@ -19,16 +20,15 @@ public class SearchCustomersQueryHandler(IApplicationDbContext dbContext, IMappe
 {
     public async Task<Result<PagedResults<SearchCustomersQueryResponse>>> Handle(SearchCustomersQuery request, CancellationToken cancellationToken)
     {
-        var source = dbContext.Customers
+        var results = await dbContext.Customers
             .Where(ApplySearchFilter(request))
-            .ProjectTo<SearchCustomersQueryResponse>(mapper.ConfigurationProvider);
-
-        var results = await PagedResults<SearchCustomersQueryResponse>.CreateAsync(source, request.Page, request.PageSize);
+            .ProjectTo<SearchCustomersQueryResponse>(mapper.ConfigurationProvider)
+            .AsPagedResultsAsync(request.Page, request.PageSize);
 
         return Result.Success(results);
     }
 
-    private Expression<Func<Customer, bool>> ApplySearchFilter(SearchCustomersQuery request) => item =>
+    private static Expression<Func<Customer, bool>> ApplySearchFilter(SearchCustomersQuery request) => item =>
         string.IsNullOrEmpty(request.SearchTerm) ||
         item.Name.Contains(request.SearchTerm) ||
         !string.IsNullOrEmpty(item.Email) && item.Email.Contains(request.SearchTerm);
