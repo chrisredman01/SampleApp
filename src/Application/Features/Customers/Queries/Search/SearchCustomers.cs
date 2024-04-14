@@ -1,0 +1,36 @@
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
+using SampleApp.Application.Common.Interfaces;
+using SampleApp.Application.Common.Models;
+using SampleApp.Domain.Entities;
+using System.Linq.Expressions;
+
+namespace SampleApp.Application.Features.Customers.Queries.Search;
+
+public class SearchCustomersQuery : SearchQuery, IRequest<Result<PagedResults<SearchCustomersQueryResponse>>>
+{
+    public string? SearchTerm { get; set; }
+}
+
+public record SearchCustomersQueryResponse(Guid Id, string Name, string? Telephone, string? Email);
+
+public class SearchCustomersQueryHandler(IApplicationDbContext dbContext, IMapper mapper) : IRequestHandler<SearchCustomersQuery, Result<PagedResults<SearchCustomersQueryResponse>>>
+{
+    public async Task<Result<PagedResults<SearchCustomersQueryResponse>>> Handle(SearchCustomersQuery request, CancellationToken cancellationToken)
+    {
+        var source = dbContext.Customers
+            .Where(ApplySearchFilter(request))
+            .ProjectTo<SearchCustomersQueryResponse>(mapper.ConfigurationProvider);
+
+        var results = await PagedResults<SearchCustomersQueryResponse>.CreateAsync(source, request.Page, request.PageSize);
+
+        return Result.Success(results);
+    }
+
+    private Expression<Func<Customer, bool>> ApplySearchFilter(SearchCustomersQuery request) => item =>
+        string.IsNullOrEmpty(request.SearchTerm) ||
+        item.Name.Contains(request.SearchTerm) ||
+        !string.IsNullOrEmpty(item.Email) && item.Email.Contains(request.SearchTerm);
+}
+
