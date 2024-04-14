@@ -18,7 +18,7 @@ public static class ErrorExtensions
         var problemDetails = new ProblemDetails
         {
             Status = statusCode,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Type = "https://tools.ietf.org/html/rfc7231",
             Title = error.Description
         };
 

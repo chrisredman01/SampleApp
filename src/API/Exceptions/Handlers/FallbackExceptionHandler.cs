@@ -10,7 +10,7 @@ public class FallbackExceptionHandler : IExceptionHandler
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
             Title = "An unknown error has occurred"
         };
 
