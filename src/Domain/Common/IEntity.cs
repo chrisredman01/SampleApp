@@ -2,7 +2,7 @@
 
 public interface IEntity
 {
-    public IReadOnlyCollection<BaseEvent> DomainEvents { get; }
-    public void AddDomainEvent(BaseEvent domainEvent);
+    public IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
+    public void AddDomainEvent(IDomainEvent domainEvent);
     public void ClearDomainEvents();
 }

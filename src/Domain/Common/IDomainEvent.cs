@@ -2,6 +2,6 @@
 
 namespace SampleApp.Domain.Common;
 
-public class BaseEvent : INotification
+public interface IDomainEvent : INotification
 {
 }
