@@ -4,10 +4,10 @@ public abstract class BaseEntity<TId> : IEntity
 {
     public TId Id { get; set; } = default!;
 
-    private readonly List<BaseEvent> _domainEvents = [];
-    public IReadOnlyCollection<BaseEvent> DomainEvents => _domainEvents.AsReadOnly();
+    private readonly List<IDomainEvent> _domainEvents = [];
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-    public void AddDomainEvent(BaseEvent domainEvent) =>
+    public void AddDomainEvent(IDomainEvent domainEvent) =>
         _domainEvents.Add(domainEvent);
 
     public void ClearDomainEvents() =>
