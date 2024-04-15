@@ -4,12 +4,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Common.Interfaces;
 using SampleApp.Application.Common.Models;
-using SampleApp.Application.Features.Customers;
 namespace SampleApp.Application.Features.Customers.Queries.Get;
 
 public record GetCustomerQuery(Guid Id) : IRequest<Result<GetCustomerQueryResponse>>;
 
-public record GetCustomerQueryResponse(Guid Id, string Name, string? Telephone, string? Email);
+public record GetCustomerQueryResponse(Guid Id, string Name, string? Telephone, string? Email, DateTime createdUtc, DateTime modifiedUtc);
 
 public class GetCustomerQueryHandler(IApplicationDbContext dbContext, IMapper mapper) : IRequestHandler<GetCustomerQuery, Result<GetCustomerQueryResponse>>
 {
