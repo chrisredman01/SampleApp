@@ -14,7 +14,7 @@ public class SearchCustomersQuery : SearchQuery, IRequest<Result<PagedResults<Se
     public string? SearchTerm { get; set; }
 }
 
-public record SearchCustomersQueryResponse(Guid Id, string Name, string? Telephone, string? Email);
+public record SearchCustomersQueryResponse(Guid Id, string Name, string? Telephone, string? Email, DateTime createdUtc, DateTime modifiedUtc);
 
 public class SearchCustomersQueryHandler(IApplicationDbContext dbContext, IMapper mapper) : IRequestHandler<SearchCustomersQuery, Result<PagedResults<SearchCustomersQueryResponse>>>
 {

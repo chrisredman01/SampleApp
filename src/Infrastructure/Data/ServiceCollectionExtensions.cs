@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDataServices(this IServiceCollection services, string connectionString, bool isDevEnvironment)
     {
         services.AddScoped<ISaveChangesInterceptor, DomainEventsInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, ChangeTrackingInterceptor>();
 
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {

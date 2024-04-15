@@ -3,8 +3,10 @@ using SampleApp.Domain.Common;
 
 namespace SampleApp.Domain.Entities;
 
-public class Customer : Entity
+public class Customer : Entity, ICreatableEntity, IModifiableEntity
 {
+    public DateTime CreatedUtc { get; set; }
+    public DateTime ModifiedUtc { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Telephone { get; set; }
     public string? Email { get; set; }
