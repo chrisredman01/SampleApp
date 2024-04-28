@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Common.Interfaces;
 using SampleApp.Application.Common.Models;
-using SampleApp.Application.Features.Customers;
 
 namespace SampleApp.Application.Features.Customers.Commands.Delete;
 

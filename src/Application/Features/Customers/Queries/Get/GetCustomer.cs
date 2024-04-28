@@ -8,7 +8,7 @@ namespace SampleApp.Application.Features.Customers.Queries.Get;
 
 public record GetCustomerQuery(Guid Id) : IRequest<Result<GetCustomerQueryResponse>>;
 
-public record GetCustomerQueryResponse(Guid Id, string Name, string? Telephone, string? Email, DateTime createdUtc, DateTime modifiedUtc);
+public record GetCustomerQueryResponse(Guid Id, string Name, string? Telephone, string? Email, DateTime CreatedUtc, DateTime ModifiedUtc);
 
 public class GetCustomerQueryHandler(IApplicationDbContext dbContext, IMapper mapper) : IRequestHandler<GetCustomerQuery, Result<GetCustomerQueryResponse>>
 {

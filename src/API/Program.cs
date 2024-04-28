@@ -1,6 +1,7 @@
 using SampleApp.API.Exceptions.Handlers;
 using SampleApp.Application;
 using SampleApp.Infrastructure;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ if (string.IsNullOrWhiteSpace(sqlConnectionString))
     throw new InvalidOperationException("No SQL connection string configured. Please configure `ConnectionStrings:Default`.");
 }
 
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddInfrastructureServices(sqlConnectionString, builder.Environment.IsDevelopment());
 builder.Services.AddApplicationServices();
 
