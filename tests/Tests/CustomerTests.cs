@@ -35,7 +35,12 @@ public class CustomerTests : IDisposable
     public async Task CreateCustomer_WhenValid_ResultIsSuccess()
     {
         // Arrange
-        var command = new CreateCustomerCommand("New Customer", "00000 000000", "testing@domain.com");
+        var command = new CreateCustomerCommand
+        {
+            Name = "New Customer",
+            Telephone = "00000 000000",
+            Email = "testing@domain.com"
+        };
 
         // Act
         var handler = new CreateCustomerCommandHandler(_dbContext);
@@ -56,7 +61,13 @@ public class CustomerTests : IDisposable
         await EnsureCustomerAsync(existingName, null, null);
 
         // Act
-        var command = new CreateCustomerCommand(existingName, "00000 000000", "testing@domain.com");
+        var command = new CreateCustomerCommand
+        { 
+            Name = existingName, 
+            Telephone = "00000 000000", 
+            Email = "testing@domain.com" 
+        };
+
         var handler = new CreateCustomerCommandHandler(_dbContext);
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -75,7 +86,14 @@ public class CustomerTests : IDisposable
         var newCustomer = await EnsureCustomerAsync("New Customer", null, null);
 
         // Act
-        var command = new UpdateCustomerCommand(newCustomer.Id, existingName, null, null);
+        var command = new UpdateCustomerCommand
+        {
+            Id = newCustomer.Id,
+            Name = existingName,
+            Telephone = null,
+            Email = null
+        };
+
         var handler = new UpdateCustomerCommandHandler(_dbContext);
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -95,7 +113,14 @@ public class CustomerTests : IDisposable
         var newEmail = "chris@domain.com";
 
         // Act
-        var command = new UpdateCustomerCommand(newCustomer.Id, newName, newTelephone, newEmail);
+        var command = new UpdateCustomerCommand
+        {
+            Id = newCustomer.Id,
+            Name = newName,
+            Telephone = newTelephone,
+            Email = newEmail
+        };
+
         var handler = new UpdateCustomerCommandHandler(_dbContext);
         var result = await handler.Handle(command, CancellationToken.None);
 
