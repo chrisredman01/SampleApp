@@ -2,12 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Common.Interfaces;
 using SampleApp.Application.Common.Models;
-using SampleApp.Application.Features.Customers;
 using SampleApp.Domain.Entities;
 
 namespace SampleApp.Application.Features.Customers.Commands.Update;
 
-public record UpdateCustomerCommand(Guid Id, string Name, string? Telephone, string? Email) : IRequest<Result>;
+public class UpdateCustomerCommand : IRequest<Result>
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Telephone { get; set; }
+    public string? Email { get; set; }
+}
 
 public class UpdateCustomerCommandHandler(IApplicationDbContext dbContext) : IRequestHandler<UpdateCustomerCommand, Result>
 {
